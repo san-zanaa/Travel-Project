@@ -24,7 +24,7 @@ export function Banner() {
 
       <div className="mx-auto max-w-3xl px-6 pb-16 pt-24 text-center text-white">
         <h1 className="font-serif text-6xl leading-tight font-medium tracking-tight md:text-7xl">
-          Discover Your Next&nbsp;Adventure
+          Discover Your Next Adventure
         </h1>
         <p className="mx-auto mt-6 max-w-xl text-base text-white/90 md:text-lg">
           Explore breathtaking destinations and create unforgettable memories
@@ -54,7 +54,7 @@ export function Banner() {
             type="button"
             key={field.label}
             className={cn(
-              "flex flex-1 flex-col items-start gap-0.5 px-6 py-4 text-left text-white transition-colors hover:bg-white/10",
+              "flex flex-1 flex-col items-start gap-0.5 px-6 py-4 text-left text-white transition-colors hover:bg-white/10 cursor-pointer",
               i > 0 && "border-t border-white/30 sm:border-t-0 sm:border-l",
             )}
           >
@@ -64,7 +64,7 @@ export function Banner() {
         ))}
         <button
           type="submit"
-          className="bg-[#00a5bd] px-12 py-4 text-lg font-semibold text-white transition-colors hover:bg-[#0091a6]"
+          className="bg-[#00a5bd] px-12 py-4 text-lg font-semibold text-white transition-colors hover:bg-[#0091a6] cursor-pointer"
         >
           Search
         </button>

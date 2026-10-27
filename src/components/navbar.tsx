@@ -12,7 +12,7 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm">
       <nav className="mx-auto flex h-14 w-full items-center justify-between px-4">
-        {/* Left: nav links */}
+
         <ul className="hidden items-center gap-8 md:flex">
           {navLinks.map((link) => (
             <li key={link.label}>
@@ -30,7 +30,6 @@ export function Navbar() {
           ))}
         </ul>
 
-        {/* Center: brand */}
         <Link
           href="/"
           className="absolute left-1/2 -translate-x-1/2 text-2xl font-bold tracking-tight text-[#0e7a8a] hover:opacity-80"
@@ -38,7 +37,7 @@ export function Navbar() {
           Wanderlast
         </Link>
 
-        {/* Right: account */}
+
         <div className="ml-auto flex items-center gap-6">
           <Link
             href="#profile"
