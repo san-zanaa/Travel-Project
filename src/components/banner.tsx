@@ -34,14 +34,14 @@ export function Banner() {
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
           <a
             href="#explore"
-            className="inline-flex h-14 items-center gap-3 bg-[#00a5bd] px-8 text-sm font-semibold tracking-wide text-white uppercase transition-colors hover:bg-[#0091a6]"
+            className="inline-flex h-14 items-center gap-3 bg-[#00a5bd] px-8 text-sm font-semibold tracking-wide text-white uppercase hover:bg-[#0091a6] transform transition-all duration-300 hover:scale-105"
           >
             Explore Now
             <ArrowRightIcon className="size-4" />
           </a>
           <a
             href="#destinations"
-            className="inline-flex h-14 items-center border border-white/60 bg-white/20 px-8 text-sm font-semibold tracking-wide text-white uppercase backdrop-blur-sm transition-colors hover:bg-white/30"
+            className="inline-flex h-14 items-center border border-white/60 bg-white/20 px-8 text-sm font-semibold tracking-wide text-white uppercase backdrop-blur-sm hover:bg-white/30 transform transition-all duration-300 hover:scale-105"
           >
             View Destination
           </a>
