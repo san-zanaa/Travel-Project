@@ -28,3 +28,56 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 - App code: `src/app` (currently only `layout.tsx` + `page.tsx`), custom hooks `src/hooks`, helpers `src/lib` (also `highlighter.tsx` using shiki for code highlighting).
 - Font: Google `Josefin_Sans` via `next/font` in the root layout.
+
+
+
+## Current Project Progress — Wanderlust
+
+**### Backend**
+- Backend uses Express.js and MongoDB.
+- Backend runs on `http://localhost:8000`.
+- MongoDB connection uses the `MONGODB_URL` environment variable.
+- MongoDB database: `wanderlust`.
+- MongoDB collection: `destinations`.
+- `POST /add-destination` receives destination data from the frontend and saves it to MongoDB using `insertOne()`.
+- `GET /destinations` fetches all destination documents from MongoDB and returns them as JSON.
+- `express.json()` middleware parses incoming JSON request bodies.
+- CORS is configured to allow requests from `http://localhost:3000`.
+- Nodemon is installed as a development dependency and can be run using `npm run dev`.
+
+**### Frontend**
+- The frontend uses Next.js App Router, TypeScript, Tailwind CSS v4, and shadcn/ui with the `base-nova` style.
+- `AddDestinationPage` provides a form to add new travel packages.
+- Form fields: destination name, country, category, price, duration, departure date, image URL, and description.
+- The form submits JSON data to `http://localhost:8000/add-destination` using `fetch()`.
+- The destination listing page fetches data from `http://localhost:8000/destinations` and displays destination cards.
+- Destination cards display the image, country, category, destination name, price, duration, and rating.
+- The listing page includes loading, error, and empty states.
+- Destination data is rendered dynamically using React state and `.map()`.
+
+**### Current API Data Structure**
+Each destination document contains:
+- `_id`
+- `destinationName`
+- `country`
+- `category`
+- `price`
+- `duration`
+- `departureDate`
+- `imageUrl`
+- `description`
+
+The `rating` field is optional and is not currently included in the add-destination form.
+
+**### Current Status**
+- The backend API successfully returns destination data from MongoDB.
+- Three destination documents have been retrieved successfully through `GET /destinations`.
+- The frontend and backend communicate through HTTP requests.
+- The next development steps may include implementing functional category, price range, and sorting filters on the destination listing page.
+
+**### Development Guidelines**
+- Preserve the existing project structure and configurations.
+- Before implementing Next.js features, consult the relevant documentation in `node_modules/next/dist/docs/` as required by the project rules.
+- Use the existing shadcn/ui components and their actual Base UI APIs.
+- Keep the UI responsive and consistent with the provided Wanderlust design references.
+- Avoid modifying unrelated files or existing configurations.
