@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { EditDestination } from "../../../components/EditDestination";
+import { EditDestination } from "@/components/EditDestination";
 
 interface IDestination {
   _id: string;
@@ -83,8 +83,9 @@ export default async function DestinationDetailsPage({
               href={`/destinations/${destination._id}/edit`}
               className="inline-flex items-center gap-2 border border-gray-300 px-4 text-xs font-medium transition hover:bg-gray-50"
             >
-              <EditDestination />
             </Link>
+
+            <EditDestination destination={destination} />
 
             <Link
               href="/destinations"

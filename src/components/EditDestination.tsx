@@ -1,195 +1,276 @@
-import { Button } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { FieldGroup } from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
+"use client";
+
 import { useState } from "react";
-import { Save, Trash2 } from "lucide-react";
+import { Save } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import {
+Dialog,
+DialogClose,
+DialogContent,
+DialogDescription,
+DialogFooter,
+DialogHeader,
+DialogTitle,
+DialogTrigger,
+} from "@/components/ui/dialog";
+import { Field, FieldGroup } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
+Select,
+SelectContent,
+SelectItem,
+SelectTrigger,
+SelectValue,
 } from "@/components/ui/select";
 
+interface IDestination {
+_id: string;
+destinationName: string;
+country: string;
+category: string;
+price: number;
+duration: string;
+departureDate: string;
+imageUrl: string;
+description: string;
+}
 
-export function EditDestination() {
-  return (
-    <Dialog>
-      <form>
-        <DialogTrigger render={<Button variant="ghost" className="hover:bg-transparent hover:text-current cursor-pointer">Edit</Button>} />
-        <DialogContent className="sm:max-w-sm">
-          <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
-            <DialogDescription>
-              Make changes to your profile here. Click save when you&apos;re
-              done.
-            </DialogDescription>
-          </DialogHeader>
-          <FieldGroup>
-            <div className="mx-auto mt-12 w-full max-w-[512px] border border-gray-100 bg-white p-5 shadow-[0_2px_4px_rgba(0,0,0,0.12)] sm:mt-14 sm:p-6">
-                <form onSubmit={handleSubmit} className="space-y-3">
+interface EditDestinationProps {
+destination: IDestination;
+}
 
-                    <div className="space-y-1.5">
-                        <Label htmlFor="destinationName" className="text-xs font-medium">
-                            Destination Name
-                        </Label>
-                        <Input
-                            id="destinationName"
-                            name="destinationName"
-                            placeholder="Bali Paradise"
-                            required
-                            className="h-8 rounded-none border-gray-100 bg-gray-50 text-xs shadow-none placeholder:text-gray-500 focus-visible:ring-1"
-                        />
-                    </div>
+export function EditDestination({ destination }: EditDestinationProps) {
+const [category, setCategory] = useState(destination.category);
+const [open, setOpen] = useState(false);
+const [loading, setLoading] = useState(false);
 
-                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                        <div className="space-y-1.5">
-                            <Label htmlFor="country" className="text-xs font-medium">
-                                Country
-                            </Label>
-                            <Input
-                                id="country"
-                                name="country"
-                                placeholder="Indonesia"
-                                required
-                                className="h-8 rounded-none border-gray-100 bg-gray-50 text-xs shadow-none placeholder:text-gray-500 focus-visible:ring-1"
-                            />
-                        </div>
+const handleSubmit = async (
+event: React.FormEvent<HTMLFormElement>
+) => {
+event.preventDefault();
 
-                        <div className="space-y-1.5">
-                            <Label htmlFor="category" className="text-xs font-medium">
-                                Category
-                            </Label>
-                            <Select
-                                value={category}
-                                onValueChange={(value) => {
-                                    if (value) {
-                                        setCategory(value);
-                                    }
-                                }}
-                            >
-                                <SelectTrigger
-                                    id="category"
-                                    className="h-8 w-full rounded-none border-gray-100 bg-gray-50 text-xs shadow-none focus:ring-1"
-                                >
-                                    <SelectValue placeholder="Select category" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="Beach">Beach</SelectItem>
-                                    <SelectItem value="Mountain">Mountain</SelectItem>
-                                    <SelectItem value="Adventure">Adventure</SelectItem>
-                                    <SelectItem value="City">City</SelectItem>
-                                    <SelectItem value="Cultural">Cultural</SelectItem>
-                                    <SelectItem value="Nature">Nature</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                    </div>
+const form = event.currentTarget;
+const formData = new FormData(form);
 
-                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                        <div className="space-y-1.5">
-                            <Label htmlFor="price" className="text-xs font-medium">
-                                Price (USD)
-                            </Label>
-                            <Input
-                                id="price"
-                                name="price"
-                                type="number"
-                                min="0"
-                                placeholder="e.g., 1299"
-                                required
-                                className="h-8 rounded-none border-gray-100 bg-gray-50 text-xs shadow-none placeholder:text-gray-500 focus-visible:ring-1"
-                            />
-                        </div>
+const updatedDestination = {
+  destinationName: formData.get("destinationName"),
+  country: formData.get("country"),
+  category,
+  price: Number(formData.get("price")),
+  duration: formData.get("duration"),
+  departureDate: formData.get("departureDate"),
+  imageUrl: formData.get("imageUrl"),
+  description: formData.get("description"),
+};
 
-                        <div className="space-y-1.5">
-                            <Label htmlFor="duration" className="text-xs font-medium">
-                                Duration
-                            </Label>
-                            <Input
-                                id="duration"
-                                name="duration"
-                                placeholder="e.g., 7 Days/6 Nights"
-                                required
-                                className="h-8 rounded-none border-gray-100 bg-gray-50 text-xs shadow-none placeholder:text-gray-500 focus-visible:ring-1"
-                            />
-                        </div>
-                    </div>
+try {
+  setLoading(true);
 
-                    <div className="space-y-1.5">
-                        <Label htmlFor="departureDate" className="text-xs font-medium">
-                            Departure Date
-                        </Label>
-                        <Input
-                            id="departureDate"
-                            name="departureDate"
-                            type="date"
-                            required
-                            className="h-8 rounded-none border-gray-100 bg-gray-50 text-xs shadow-none focus-visible:ring-1"
-                        />
-                    </div>
+  const response = await fetch(
+    `http://localhost:8000/all-destination/${destination._id}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedDestination),
+    }
+  );
 
-                    <div className="space-y-1.5">
-                        <Label htmlFor="imageUrl" className="text-xs font-medium">
-                            Image URL
-                        </Label>
-                        <Input
-                            id="imageUrl"
-                            name="imageUrl"
-                            type="url"
-                            placeholder="https://example.com/image.jpg"
-                            required
-                            className="h-8 rounded-none border-gray-100 bg-gray-50 text-xs shadow-none placeholder:text-gray-500 focus-visible:ring-1"
-                        />
-                    </div>
+  if (!response.ok) {
+    throw new Error("Failed to update destination");
+  }
 
-                    <div className="space-y-1.5">
-                        <Label htmlFor="description" className="text-xs font-medium">
-                            Description
-                        </Label>
-                        <Textarea
-                            id="description"
-                            name="description"
-                            placeholder="Describe the travel experience..."
-                            required
-                            className="min-h-[97px] resize-y rounded-none border-gray-100 bg-gray-50 text-xs shadow-none placeholder:text-gray-500 focus-visible:ring-1"
-                        />
-                    </div>
+  alert("Travel package updated successfully!");
+  setOpen(false);
+  window.location.reload();
+} catch (error) {
+  console.error("Error updating destination:", error);
+  alert("Failed to update travel package. Please try again.");
+} finally {
+  setLoading(false);
+}
 
-                    <div className="flex flex-wrap justify-end gap-2.5 pt-3">
-                        <Button
-                            type="button"
-                            variant="outline"
-                            onClick={handleCancel}
-                            className="h-9 rounded-none border-red-400 px-4 text-xs font-normal text-red-500 hover:bg-red-50 hover:text-red-600"
-                        >
-                            <Trash2 className="mr-1.5 size-3.5" />
-                            Cancel
-                        </Button>
+};
 
-                        <Button
-                            type="submit"
-                            className="h-9 rounded-none bg-[#17a2b8] px-4 text-xs font-normal text-white hover:bg-[#138496]"
-                        >
-                            <Save className="mr-1.5 size-3.5" />
-                            Add Travel Package
-                        </Button>
-                    </div>
-                </form>
-            </div>
-          </FieldGroup>
-        </DialogContent>
-      </form>
-    </Dialog>
-  )
+return (
+<Dialog
+open={open}
+onOpenChange={(nextOpen) => {
+setOpen(nextOpen);
+
+    if (nextOpen) {
+      setCategory(destination.category);
+    }
+  }}
+>
+  <DialogTrigger
+    render={
+      <Button
+        type="button"
+        variant="ghost"
+        className="cursor-pointer hover:bg-transparent hover:text-current"
+      >
+        Edit
+      </Button>
+    }
+  />
+
+  <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[560px]">
+    <DialogHeader>
+      <DialogTitle>Update Travel Package</DialogTitle>
+      <DialogDescription>
+        Make changes to the travel package details below.
+      </DialogDescription>
+    </DialogHeader>
+
+    <form onSubmit={handleSubmit}>
+      <FieldGroup className="gap-3">
+        <Field>
+          <Label htmlFor="destinationName">Destination Name</Label>
+          <Input
+            id="destinationName"
+            name="destinationName"
+            defaultValue={destination.destinationName}
+            placeholder="Bali Paradise"
+            required
+            className="rounded-none bg-gray-50"
+          />
+        </Field>
+
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <Field>
+            <Label htmlFor="country">Country</Label>
+            <Input
+              id="country"
+              name="country"
+              defaultValue={destination.country}
+              placeholder="Indonesia"
+              required
+              className="rounded-none bg-gray-50"
+            />
+          </Field>
+
+          <Field>
+            <Label htmlFor="category">Category</Label>
+            <Select
+              value={category}
+              onValueChange={(value) => {
+                if (value) setCategory(value);
+              }}
+            >
+              <SelectTrigger
+                id="category"
+                className="w-full rounded-none bg-gray-50"
+              >
+                <SelectValue placeholder="Select category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Beach">Beach</SelectItem>
+                <SelectItem value="Mountain">Mountain</SelectItem>
+                <SelectItem value="Adventure">Adventure</SelectItem>
+                <SelectItem value="City">City</SelectItem>
+                <SelectItem value="Cultural">Cultural</SelectItem>
+                <SelectItem value="Nature">Nature</SelectItem>
+              </SelectContent>
+            </Select>
+          </Field>
+        </div>
+
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <Field>
+            <Label htmlFor="price">Price (USD)</Label>
+            <Input
+              id="price"
+              name="price"
+              type="number"
+              min="0"
+              defaultValue={destination.price}
+              placeholder="1299"
+              required
+              className="rounded-none bg-gray-50"
+            />
+          </Field>
+
+          <Field>
+            <Label htmlFor="duration">Duration</Label>
+            <Input
+              id="duration"
+              name="duration"
+              defaultValue={destination.duration}
+              placeholder="7 Days/6 Nights"
+              required
+              className="rounded-none bg-gray-50"
+            />
+          </Field>
+        </div>
+
+        <Field>
+          <Label htmlFor="departureDate">Departure Date</Label>
+          <Input
+            id="departureDate"
+            name="departureDate"
+            type="date"
+            defaultValue={destination.departureDate?.slice(0, 10)}
+            required
+            className="rounded-none bg-gray-50"
+          />
+        </Field>
+
+        <Field>
+          <Label htmlFor="imageUrl">Image URL</Label>
+          <Input
+            id="imageUrl"
+            name="imageUrl"
+            type="url"
+            defaultValue={destination.imageUrl}
+            placeholder="https://example.com/image.jpg"
+            required
+            className="rounded-none bg-gray-50"
+          />
+        </Field>
+
+        <Field>
+          <Label htmlFor="description">Description</Label>
+          <Textarea
+            id="description"
+            name="description"
+            defaultValue={destination.description}
+            placeholder="Describe the travel experience..."
+            required
+            className="min-h-[97px] resize-y rounded-none bg-gray-50"
+          />
+        </Field>
+      </FieldGroup>
+
+      <DialogFooter className="mt-5 gap-2">
+        <DialogClose
+          render={
+            <Button
+              type="button"
+              variant="outline"
+              className="rounded-none border-red-300 text-red-500 hover:bg-red-50 hover:text-red-600"
+            >
+              Cancel
+            </Button>
+          }
+        />
+
+        <Button
+          type="submit"
+          disabled={loading}
+          className="rounded-none bg-[#17a2b8] text-white hover:bg-[#138496]"
+        >
+          <Save className="mr-1.5 size-4" />
+          {loading ? "Saving..." : "Save Changes"}
+        </Button>
+      </DialogFooter>
+    </form>
+  </DialogContent>
+</Dialog>
+
+);
 }
