@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { EditDestination } from "@/components/EditDestination";
+import { DeleteDestination } from "@/components/DeleteDestination";
 
 interface IDestination {
   _id: string;
@@ -79,21 +80,9 @@ export default async function DestinationDetailsPage({
           </Link>
 
           <div className="flex items-center gap-2">
-            <Link
-              href={`/destinations/${destination._id}/edit`}
-              className="inline-flex items-center gap-2 border border-gray-300 px-4 text-xs font-medium transition hover:bg-gray-50"
-            >
-            </Link>
 
             <EditDestination destination={destination} />
-
-            <Link
-              href="/destinations"
-              className="inline-flex items-center gap-2 border border-red-300 px-4 py-2 text-xs text-red-500 transition hover:bg-red-50"
-            >
-              <span aria-hidden="true">♜</span>
-              Cancel
-            </Link>
+              <span aria-hidden="true" className="inline-flex items-center gap-2 text-xs text-red-500 transition hover:bg-red-50">♜<DeleteDestination id={id}/></span>
           </div>
         </div>
 
@@ -214,12 +203,13 @@ export default async function DestinationDetailsPage({
 
               <div className="my-3 border-t border-gray-100" />
 
-              <button
+              <Link 
+                href={"/add-destination"}
                 type="button"
                 className="flex w-full items-center justify-center gap-2 bg-cyan-600 px-4 py-3 text-xs font-medium text-white transition hover:bg-cyan-700"
               >
                 Book Now <span aria-hidden="true">→</span>
-              </button>
+              </Link>
 
               <ul className="mt-5 space-y-4">
                 {[

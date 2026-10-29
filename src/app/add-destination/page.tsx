@@ -40,7 +40,7 @@ export default function AddDestinationPage() {
 
         try {
             const response = await fetch(
-                "http://localhost:8000/add-destination",
+                "http://localhost:8000/all-destination",
                 {
                     method: "POST",
                     headers: {
