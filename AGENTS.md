@@ -81,3 +81,22 @@ The `rating` field is optional and is not currently included in the add-destinat
 - Use the existing shadcn/ui components and their actual Base UI APIs.
 - Keep the UI responsive and consistent with the provided Wanderlust design references.
 - Avoid modifying unrelated files or existing configurations.
+
+## General Development Rules
+
+- Always inspect existing code before making changes.
+- Treat the actual codebase as the source of truth if this document becomes outdated.
+- Make minimal, targeted changes and preserve existing working functionality.
+- Follow the existing project structure, coding conventions, UI design, and installed dependencies.
+- Use TypeScript types appropriately and avoid unnecessary `any`.
+- Follow Next.js App Router conventions and check the installed documentation when needed.
+- Use existing shadcn/ui Base UI components and Tailwind CSS v4 conventions.
+- Keep the UI responsive and accessible across mobile, tablet, and desktop.
+- Handle loading, empty, success, and error states where appropriate.
+- Validate user input and handle API and database errors safely.
+- Never expose secrets or environment variables in frontend code.
+- Do not use hardcoded mock data to hide API or database failures.
+- Do not install new dependencies or modify unrelated files without a clear reason.
+- Do not claim that a feature, build, or test works unless it has been verified.
+- After each task, summarize the changes, affected files, verification results, and any remaining issues.
+- Keep this document updated when important project architecture, API routes, or development conventions change.
