@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { EditDestination } from "../../../components/EditDestination";
 
 interface IDestination {
   _id: string;
@@ -80,10 +81,9 @@ export default async function DestinationDetailsPage({
           <div className="flex items-center gap-2">
             <Link
               href={`/destinations/${destination._id}/edit`}
-              className="inline-flex items-center gap-2 border border-gray-300 px-4 py-2 text-xs font-medium transition hover:bg-gray-50"
+              className="inline-flex items-center gap-2 border border-gray-300 px-4 text-xs font-medium transition hover:bg-gray-50"
             >
-              <span aria-hidden="true">✎</span>
-              Edit
+              <EditDestination />
             </Link>
 
             <Link
