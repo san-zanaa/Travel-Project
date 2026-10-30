@@ -8,27 +8,55 @@ import {
     Mail,
     LockKeyhole,
 } from "lucide-react";
-
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export default function SignupForm() {
+    const router = useRouter();
+
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (
+        event: React.FormEvent<HTMLFormElement>
+    ) => {
         event.preventDefault();
 
         const formData = new FormData(event.currentTarget);
-        const fullName = formData.get("fullName");
-        const email = formData.get("email");
-        const password = formData.get("password");
-        const confirmPassword = formData.get("confirmPassword");
+
+        const fullName = formData.get("fullName") as string;
+        const email = formData.get("email") as string;
 
         if (password !== confirmPassword) {
             alert("Passwords do not match!");
             return;
+        }
+
+        try {
+            const { error } = await authClient.signUp.email({
+                name: fullName,
+                email,
+                password,
+                callbackURL: "/signin"
+            });
+
+            if (error) {
+                alert(error.message || "Failed to create account");
+                return;
+            }
+
+            alert("Account created successfully!");
+
+            router.push("/signin");
+            router.refresh();
+
+        } catch (error) {
+            console.error("Signup error:", error);
+            alert("Something went wrong. Please try again.");
         }
     };
 
@@ -90,6 +118,8 @@ export default function SignupForm() {
                                 name="password"
                                 type={showPassword ? "text" : "password"}
                                 placeholder="Create a password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                                 required
                                 className="h-[42px] rounded-none border-gray-200 bg-[#f8f9fa] pl-10 pr-12 shadow-none focus-visible:ring-1"
                             />
@@ -115,6 +145,8 @@ export default function SignupForm() {
                                 name="confirmPassword"
                                 type={showConfirmPassword ? "text" : "password"}
                                 placeholder="Confirm your password"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
                                 required
                                 className="h-[42px] rounded-none border-gray-200 bg-[#f8f9fa] pl-10 pr-12 shadow-none focus-visible:ring-1"
                             />
