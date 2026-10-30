@@ -47,10 +47,10 @@ export function Navbar() {
             <UserIcon className="size-4" />
             Profile
           </Link>
-          <Link href="#login" className="text-sm text-foreground hover:text-primary">
+          <Link href="/login" className="text-sm text-foreground hover:text-primary">
             Login
           </Link>
-          <Link href="#signup" className="text-sm text-foreground hover:text-primary">
+          <Link href="/signup" className="text-sm text-foreground hover:text-primary">
             Sign Up
           </Link>
         </div>
