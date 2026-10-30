@@ -41,17 +41,16 @@ export default function SignupForm() {
                 name: fullName,
                 email,
                 password,
-                callbackURL: "/signin"
+                callbackURL: "/login"
             });
 
             if (error) {
                 alert(error.message || "Failed to create account");
                 return;
             }
-
             alert("Account created successfully!");
 
-            router.push("/signin");
+            router.push("/login");
             router.refresh();
 
         } catch (error) {
@@ -186,7 +185,7 @@ export default function SignupForm() {
                 <p className="mt-5 text-center text-sm text-gray-500">
                     Already have an account?{" "}
                     <Link
-                        href="/signin"
+                        href="/login"
                         className="font-semibold text-[#17a2b8] hover:underline"
                     >
                         Sign In
